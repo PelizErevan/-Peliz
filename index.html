@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web Settings</title>
+    <title>Telegram Realtime Web</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Подключаем Firebase для работы чата в реальном времени -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 </head>
-<body data-theme="dark"> <!-- По умолчанию темная тема, как на скринах -->
+<body data-theme="dark">
 
-    <!-- Верхняя панель (Поиск и Бургер) -->
+    <!-- Верхняя панель -->
     <header class="tg-header">
         <button class="tg-burger-btn" id="burgerBtn" aria-label="Открыть меню">
             <span></span><span></span><span></span>
@@ -19,102 +22,96 @@
         <div class="tg-header-avatar"></div>
     </header>
 
-    <!-- ТЕМНЫЙ ОВЕРЛЕЙ ДЛЯ ЗАДНЕГО ФОНА -->
+    <!-- ТЕМНЫЙ ОВЕРЛЕЙ ДЛЯ ЗАДНЕГО ФОНА МЕНЮ -->
     <div class="tg-sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- ЛЕВОЕ БОКОВОЕ МЕНЮ (Скрины 3 и 4) -->
+    <!-- ЛЕВОЕ ВЫДВИЖНОЕ МЕНЮ -->
     <div class="tg-left-sidebar" id="leftSidebar">
-        <!-- Блок профиля в меню -->
         <div class="tg-menu-profile">
             <div class="tg-menu-avatar-row">
                 <div class="tg-user-avatar"></div>
-                <div class="tg-menu-actions">
-                    <span class="tg-bell-icon">🔔</span>
-                </div>
+                <div class="tg-bell-icon">🔔</div>
             </div>
-            <div class="tg-menu-user-info">
-                <div class="tg-profile-name">Gresed°•</div>
-            </div>
+            <div class="tg-profile-name">Gresed°•</div>
         </div>
-
-        <!-- Основной список меню -->
         <div class="tg-menu-list">
-            <button class="tg-menu-item">
-                <span class="menu-icon">➕</span>
-                <span class="menu-text">Добавить аккаунт</span>
-            </button>
+            <button class="tg-menu-item"><span class="menu-icon">➕</span><span class="menu-text">Добавить аккаунт</span></button>
             <div class="tg-divider"></div>
-            <button class="tg-menu-item">
-                <span class="menu-icon">🔖</span>
-                <span class="menu-text">Избранное</span>
-                <span class="menu-badge">1</span>
-            </button>
-            <button class="tg-menu-item">
-                <span class="menu-icon">📥</span>
-                <span class="menu-text">Архив</span>
-                <span class="menu-badge transparent">2</span>
-            </button>
-            <button class="tg-menu-item">
-                <span class="menu-icon">🎬</span>
-                <span class="menu-text">Мои истории</span>
-            </button>
-            <button class="tg-menu-item">
-                <span class="menu-icon">👤</span>
-                <span class="menu-text">Контакты</span>
-            </button>
-            <button class="tg-menu-item active-trigger" id="openSettingsBtn">
-                <span class="menu-icon">⚙️</span>
-                <span class="menu-text">Настройки</span>
-            </button>
+            <button class="tg-menu-item"><span class="menu-icon">🔖</span><span class="menu-text">Избранное</span><span class="menu-badge">1</span></button>
+            <button class="tg-menu-item"><span class="menu-icon">📥</span><span class="menu-text">Архив</span><span class="menu-badge transparent">2</span></button>
+            <button class="tg-menu-item"><span class="menu-icon">🎬</span><span class="menu-text">Мои истории</span></button>
+            <button class="tg-menu-item"><span class="menu-icon">👤</span><span class="menu-text">Контакты</span></button>
+            <button class="tg-menu-item" id="openSettingsBtn"><span class="menu-icon">⚙️</span><span class="menu-text">Настройки</span></button>
             
-            <!-- Кнопка "Ещё" с выпадающим списком -->
             <div class="tg-more-wrapper">
                 <button class="tg-menu-item" id="moreMenuBtn">
-                    <span class="menu-icon">⋮</span>
-                    <span class="menu-text">Ещё</span>
-                    <span class="menu-arrow">›</span>
+                    <span class="menu-icon">⋮</span><span class="menu-text">Ещё</span><span class="menu-arrow">›</span>
                 </button>
-                
-                <!-- Всплывающее подменю "Ещё" (Скрин 4) -->
                 <div class="tg-dropdown-menu hidden" id="moreDropdown">
-                    <button class="tg-dropdown-item" id="toggleThemeBtn">
-                        <span class="drop-icon">🌙</span>
-                        <span class="drop-text" id="themeBtnText">Светлый режим</span>
-                    </button>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">🪄</span>
-                        <span class="drop-text">Без анимации</span>
-                    </button>
-                    <div class="drop-divider"></div>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">➔</span>
-                        <span class="drop-text">Переключиться на версию А</span>
-                    </button>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">❓</span>
-                        <span class="drop-text">Возможности Telegram</span>
-                    </button>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">🪲</span>
-                        <span class="drop-text">Сообщить об ошибке</span>
-                    </button>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">📥</span>
-                        <span class="drop-text">Установить приложение</span>
-                    </button>
-                    <button class="tg-dropdown-item">
-                        <span class="drop-icon">📺</span>
-                        <span class="drop-text">Картинка в картинке</span>
-                    </button>
+                    <button class="tg-dropdown-item" id="toggleThemeBtn"><span class="drop-icon">🌙</span><span class="drop-text" id="themeBtnText">Светлый режим</span></button>
+                    <button class="tg-dropdown-item"><span class="drop-icon">🪄</span><span class="drop-text">Без анимации</span></button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- ОСНОВНОЙ ИНТЕРФЕЙС ПРИЛОЖЕНИЯ (ЧАТЫ + ОКНО ЧАТА) -->
+    <div class="tg-main-layout">
+        
+        <!-- ЛЕВАЯ КОЛОНКА: СПИСОК ЧАТОВ -->
+        <aside class="tg-chats-sidebar">
+            <!-- Пример Общего чата -->
+            <div class="chat-dialog-item active" data-chat-id="global_chat">
+                <div class="dialog-avatar icon-blue">💬</div>
+                <div class="dialog-info">
+                    <div class="dialog-title-row">
+                        <span class="dialog-name">Общий онлайн-чат</span>
+                        <span class="dialog-time">19:05</span>
+                    </div>
+                    <div class="dialog-last-msg">Тут общаются все люди в реальном времени...</div>
+                </div>
+            </div>
+            
+            <!-- Пример Новостного Канала -->
+            <div class="chat-dialog-item" data-chat-id="news_channel">
+                <div class="dialog-avatar icon-orange">📢</div>
+                <div class="dialog-info">
+                    <div class="dialog-title-row">
+                        <span class="dialog-name">Мой новостной канал</span>
+                        <span class="dialog-time">Чт</span>
+                    </div>
+                    <div class="dialog-last-msg">Официальные публикации и новости сайта</div>
+                </div>
+            </div>
+        </aside>
+        <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА: ОКНО АКТИВНОГО ЧАТА -->
+        <main class="tg-chat-window">
+            <!-- Шапка чата -->
+            <div class="chat-window-header">
+                <div class="chat-header-info">
+                    <h3 id="currentChatName">Общий онлайн-чат</h3>
+                    <span class="chat-header-status" id="currentChatStatus">в сети: все пользователи</span>
+                </div>
+            </div>
+
+            <!-- Зона с сообщениями (сюда скрипт выводит текст из Firebase) -->
+            <div class="chat-messages-container" id="chatMessages">
+                <!-- Сообщения будут загружаться сюда в реальном времени -->
+            </div>
+
+            <!-- Панель ввода сообщения -->
+            <div class="chat-input-panel">
+                <form id="messageForm" class="chat-input-form">
+                    <input type="text" id="messageInput" placeholder="Написать сообщение..." autocomplete="off" required>
+                    <button type="submit" class="chat-send-btn" id="sendBtn">➤</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
     <!-- ОКНО НАСТРОЕК ПО ЦЕНТРУ (Скрины 1 и 2) -->
     <div class="tg-modal-container id-hidden" id="settingsModal">
         <div class="tg-settings-window">
-            
-            <!-- Шапка окна -->
             <div class="settings-header">
                 <button class="settings-back-btn" id="closeSettingsBtn">←</button>
                 <h2>Настройки</h2>
@@ -124,22 +121,18 @@
                 </div>
             </div>
 
-            <!-- Контент настроек -->
             <div class="settings-scroll-body">
-                
-                <!-- Блок профиля -->
                 <div class="profile-main-block">
                     <div class="main-avatar"></div>
                     <div class="main-name">Gresed°•</div>
                     <div class="main-status">● в сети</div>
                 </div>
 
-                <!-- Место для информации пользователя (Юзердата) -->
                 <div class="settings-block-section">
                     <div class="info-row">
                         <span class="info-icon">📞</span>
                         <div class="info-text-group">
-                            <span class="info-value">+7 emergency services 762 3306</span>
+                            <span class="info-value">+7 762 3306</span>
                             <span class="info-label">Телефон</span>
                         </div>
                     </div>
@@ -150,16 +143,13 @@
                             <span class="info-label">Имя пользователя</span>
                         </div>
                     </div>
-                    
-                    <!-- ТВОЙ БЛОК ДЛЯ ИНФОРМАЦИИ, КОТОРУЮ ТЫ ПРИШЛЕШЬ ПОЗЖЕ -->
                     <div class="info-row highlight-info">
                         <span class="info-icon">ℹ️</span>
                         <div class="info-text-group">
-                            <span class="info-value" id="customInfoPlaceholder">Good evening.</span>
+                            <span class="info-value">Good evening.</span>
                             <span class="info-label">О себе</span>
                         </div>
                     </div>
-
                     <div class="info-row">
                         <span class="info-icon">🎂</span>
                         <div class="info-text-group">
@@ -169,14 +159,12 @@
                     </div>
                 </div>
 
-                <!-- Меню настроек приложения -->
                 <div class="settings-block-section no-padding">
                     <div class="menu-item-row">
                         <span class="row-icon icon-red">🔔</span>
                         <span class="row-text">Уведомления и звук</span>
                     </div>
 
-                    <!-- ПОЛЗУНОК ГРОМКОСТИ (Интегрирован прямо в меню звука) -->
                     <div class="volume-inline-control">
                         <span class="volume-lbl">Громкость: <span id="volumeValLabel">50%</span></span>
                         <input type="range" id="volumeSlider" min="0" max="100" value="50" class="tg-range-slider">
@@ -190,14 +178,11 @@
                         <span class="row-icon icon-gray">🔑</span>
                         <span class="row-text">Конфиденциальность</span>
                     </div>
-                    
-                    <!-- Блок кастомного выбора цветов интерфейса -->
                     <div class="menu-item-row toggle-custom-colors" id="customColorsTrigger">
                         <span class="row-icon icon-blue">⚙️</span>
                         <span class="row-text">Общие настройки (Свои цвета)</span>
                     </div>
                     
-                    <!-- Скрытый блок палитры -->
                     <div class="custom-color-pickers hidden" id="customColorPickers">
                         <div class="picker-line">
                             <span>Фон профиля:</span>
@@ -231,33 +216,13 @@
                         <span class="row-text">Язык</span>
                         <span class="row-value">Русский</span>
                     </div>
-                    <div class="menu-item-row">
-                        <span class="row-icon icon-orange">⌨️</span>
-                        <span class="row-text">Сочетания клавиш</span>
-                    </div>
-                </div>
-
-                <div class="settings-block-section no-padding">
-                    <div class="menu-item-row">
-                        <span class="row-icon icon-star">⭐</span>
-                        <span class="row-text">Telegram Premium</span>
-                    </div>
-                    <div class="menu-item-row">
-                        <span class="row-icon icon-gift">🎁</span>
-                        <span class="row-text">Отправить подарок</span>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ФОН ЧАТА И ПОДКЛЮЧЕНИЕ СКРИПТА -->
+    <!-- ФОНОВЫЙ РИСУНОК ЧАТА -->
     <div class="tg-chat-background"></div>
 
-    <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
