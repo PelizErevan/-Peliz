@@ -1,0 +1,178 @@
+/* Базовые переменные для тем (по умолчанию светлая) */
+:root {
+    --bg-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --accent-color: #3498db;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Тёмная тема */
+[data-theme="dark"] {
+    --bg-color: #1e1e24;
+    --card-bg: #2a2a32;
+    --text-color: #f5f6fa;
+    --accent-color: #e74c3c;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Общие стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Кнопка шестерёнки */
+.settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    user-select: none;
+    transition: transform 0.3s ease;
+}
+
+.settings-btn:hover {
+    transform: rotate(45deg);
+}
+
+/* Панель настроек */
+.settings-panel {
+    position: fixed;
+    top: 20px;
+    right: -320px; /* Скрыта за экраном по умолчанию */
+    width: 280px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    padding: 20px;
+    z-index: 999;
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.settings-panel.open {
+    right: 20px; /* Показывается при активации */
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--shadow-color);
+    padding-bottom: 10px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* Элементы настроек */
+.setting-item {
+    margin-bottom: 15px;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.setting-item select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--shadow-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Кастомные палитры */
+.custom-colors-group {
+    background: var(--bg-color);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.color-picker-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.color-picker-item:last-child {
+    margin-bottom: 0;
+}
+
+.color-picker-item input[type="color"] {
+    border: none;
+    width: 40px;
+    height: 25px;
+    cursor: pointer;
+    background: none;
+}
+
+/* Ползунок */
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume-container input[type="range"] {
+    flex: 1;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Контейнер для вашей информации */
+.content-container {
+    max-width: 800px;
+    width: 90%;
+    margin: 40px auto;
+}
+
+.info-block {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    text-align: center;
+}
+
+.info-block h1 {
+    margin-bottom: 20px;
+}
+
+.placeholder-text {
+    line-height: 1.6;
+    opacity: 0.8;
+}
