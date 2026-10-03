@@ -3,94 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Style Site</title>
+    <title>Telegram Web Settings</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="dark"> <!-- По умолчанию темная тема, как на скринах -->
 
-    <!-- Кнопка бургер-меню в стиле Telegram (вместо шестерёнки) -->
-    <button class="tg-menu-btn" id="settingsBtn" aria-label="Открыть настройки">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    <!-- Верхняя панель (Поиск и Бургер) -->
+    <header class="tg-header">
+        <button class="tg-burger-btn" id="burgerBtn" aria-label="Открыть меню">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="tg-search-wrapper">
+            <input type="text" placeholder="Поиск" class="tg-search-input" disabled>
+        </div>
+        <div class="tg-header-avatar"></div>
+    </header>
 
-    <!-- Модальное окно настроек по центру (как в Telegram) -->
-    <div class="tg-modal-overlay" id="modalOverlay">
-        <div class="tg-settings-modal" id="settingsPanel">
-            <div class="tg-modal-header">
-                <div class="tg-modal-title-block">
-                    <button class="tg-back-btn" id="closeBtn">←</button>
-                    <h3>Настройки</h3>
+    <!-- ТЕМНЫЙ ОВЕРЛЕЙ ДЛЯ ЗАДНЕГО ФОНА -->
+    <div class="tg-sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ЛЕВОЕ БОКОВОЕ МЕНЮ (Скрины 3 и 4) -->
+    <div class="tg-left-sidebar" id="leftSidebar">
+        <!-- Блок профиля в меню -->
+        <div class="tg-menu-profile">
+            <div class="tg-menu-avatar-row">
+                <div class="tg-user-avatar"></div>
+                <div class="tg-menu-actions">
+                    <span class="tg-bell-icon">🔔</span>
                 </div>
             </div>
+            <div class="tg-menu-user-info">
+                <div class="tg-profile-name">Gresed°•</div>
+            </div>
+        </div>
+
+        <!-- Основной список меню -->
+        <div class="tg-menu-list">
+            <button class="tg-menu-item">
+                <span class="menu-icon">➕</span>
+                <span class="menu-text">Добавить аккаунт</span>
+            </button>
+            <div class="tg-divider"></div>
+            <button class="tg-menu-item">
+                <span class="menu-icon">🔖</span>
+                <span class="menu-text">Избранное</span>
+                <span class="menu-badge">1</span>
+            </button>
+            <button class="tg-menu-item">
+                <span class="menu-icon">📥</span>
+                <span class="menu-text">Архив</span>
+                <span class="menu-badge transparent">2</span>
+            </button>
+            <button class="tg-menu-item">
+                <span class="menu-icon">🎬</span>
+                <span class="menu-text">Мои истории</span>
+            </button>
+            <button class="tg-menu-item">
+                <span class="menu-icon">👤</span>
+                <span class="menu-text">Контакты</span>
+            </button>
+            <button class="tg-menu-item active-trigger" id="openSettingsBtn">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">Настройки</span>
+            </button>
             
-            <div class="tg-modal-body">
-                <!-- Категория: Интерфейс -->
-                <div class="tg-section-title">Настройки интерфейса</div>
+            <!-- Кнопка "Ещё" с выпадающим списком -->
+            <div class="tg-more-wrapper">
+                <button class="tg-menu-item" id="moreMenuBtn">
+                    <span class="menu-icon">⋮</span>
+                    <span class="menu-text">Ещё</span>
+                    <span class="menu-arrow">›</span>
+                </button>
                 
-                <div class="tg-setting-item">
-                    <div class="tg-setting-info">
-                        <span class="tg-icon">🎨</span>
-                        <label for="themeSelect">Тема оформления</label>
-                    </div>
-                    <select id="themeSelect" class="tg-select">
-                        <option value="light">Дневная тема</option>
-                        <option value="dark">Ночная тема</option>
-                        <option value="custom">Кастомная палитра</option>
-                    </select>
+                <!-- Всплывающее подменю "Ещё" (Скрин 4) -->
+                <div class="tg-dropdown-menu hidden" id="moreDropdown">
+                    <button class="tg-dropdown-item" id="toggleThemeBtn">
+                        <span class="drop-icon">🌙</span>
+                        <span class="drop-text" id="themeBtnText">Светлый режим</span>
+                    </button>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">🪄</span>
+                        <span class="drop-text">Без анимации</span>
+                    </button>
+                    <div class="drop-divider"></div>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">➔</span>
+                        <span class="drop-text">Переключиться на версию А</span>
+                    </button>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">❓</span>
+                        <span class="drop-text">Возможности Telegram</span>
+                    </button>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">🪲</span>
+                        <span class="drop-text">Сообщить об ошибке</span>
+                    </button>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">📥</span>
+                        <span class="drop-text">Установить приложение</span>
+                    </button>
+                    <button class="tg-dropdown-item">
+                        <span class="drop-icon">📺</span>
+                        <span class="drop-text">Картинка в картинке</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ОКНО НАСТРОЕК ПО ЦЕНТРУ (Скрины 1 и 2) -->
+    <div class="tg-modal-container id-hidden" id="settingsModal">
+        <div class="tg-settings-window">
+            
+            <!-- Шапка окна -->
+            <div class="settings-header">
+                <button class="settings-back-btn" id="closeSettingsBtn">←</button>
+                <h2>Настройки</h2>
+                <div class="header-right-icons">
+                    <span class="header-search-icon">🔍</span>
+                    <span class="header-dots-icon">⋮</span>
+                </div>
+            </div>
+
+            <!-- Контент настроек -->
+            <div class="settings-scroll-body">
+                
+                <!-- Блок профиля -->
+                <div class="profile-main-block">
+                    <div class="main-avatar"></div>
+                    <div class="main-name">Gresed°•</div>
+                    <div class="main-status">● в сети</div>
                 </div>
 
-                <!-- Блок кастомной темы в стиле Telegram-конструктора -->
-                <div id="customColors" class="tg-custom-palette hidden">
-                    <div class="tg-palette-row">
-                        <div class="tg-setting-info">
-                            <span class="tg-icon">🖼️</span>
-                            <span>Цвет фона чата</span>
+                <!-- Место для информации пользователя (Юзердата) -->
+                <div class="settings-block-section">
+                    <div class="info-row">
+                        <span class="info-icon">📞</span>
+                        <div class="info-text-group">
+                            <span class="info-value">+7 emergency services 762 3306</span>
+                            <span class="info-label">Телефон</span>
                         </div>
-                        <input type="color" id="bgColorPicker" value="#f5f7fa" class="tg-color-picker">
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">@</span>
+                        <div class="info-text-group">
+                            <span class="info-value">Englandet</span>
+                            <span class="info-label">Имя пользователя</span>
+                        </div>
                     </div>
                     
-                    <div class="tg-palette-row">
-                        <div class="tg-setting-info">
-                            <span class="tg-icon">✍️</span>
-                            <span>Цвет основного текста</span>
+                    <!-- ТВОЙ БЛОК ДЛЯ ИНФОРМАЦИИ, КОТОРУЮ ТЫ ПРИШЛЕШЬ ПОЗЖЕ -->
+                    <div class="info-row highlight-info">
+                        <span class="info-icon">ℹ️</span>
+                        <div class="info-text-group">
+                            <span class="info-value" id="customInfoPlaceholder">Good evening.</span>
+                            <span class="info-label">О себе</span>
                         </div>
-                        <input type="color" id="textColorPicker" value="#000000" class="tg-color-picker">
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-icon">🎂</span>
+                        <div class="info-text-group">
+                            <span class="info-value">25 ноября 1875 г. (150 лет)</span>
+                            <span class="info-label">День рождения</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Категория: Звук -->
-                <div class="tg-section-title">Звуки и уведомления</div>
-                
-                <div class="tg-setting-item vertical">
-                    <div class="tg-setting-info">
-                        <span class="tg-icon">🔊</span>
-                        <label for="volumeSlider">Громкость медиа</label>
-                        <span id="volumeValue" class="tg-volume-badge">50%</span>
+                <!-- Меню настроек приложения -->
+                <div class="settings-block-section no-padding">
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-red">🔔</span>
+                        <span class="row-text">Уведомления и звук</span>
                     </div>
-                    <div class="tg-slider-wrapper">
-                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="tg-range">
+
+                    <!-- ПОЛЗУНОК ГРОМКОСТИ (Интегрирован прямо в меню звука) -->
+                    <div class="volume-inline-control">
+                        <span class="volume-lbl">Громкость: <span id="volumeValLabel">50%</span></span>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="tg-range-slider">
+                    </div>
+
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-green">💾</span>
+                        <span class="row-text">Данные и память</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-gray">🔑</span>
+                        <span class="row-text">Конфиденциальность</span>
+                    </div>
+                    
+                    <!-- Блок кастомного выбора цветов интерфейса -->
+                    <div class="menu-item-row toggle-custom-colors" id="customColorsTrigger">
+                        <span class="row-icon icon-blue">⚙️</span>
+                        <span class="row-text">Общие настройки (Свои цвета)</span>
+                    </div>
+                    
+                    <!-- Скрытый блок палитры -->
+                    <div class="custom-color-pickers hidden" id="customColorPickers">
+                        <div class="picker-line">
+                            <span>Фон профиля:</span>
+                            <input type="color" id="customBgPicker" value="#182533">
+                        </div>
+                        <div class="picker-line">
+                            <span>Цвет текста:</span>
+                            <input type="color" id="customTextPicker" value="#ffffff">
+                        </div>
+                    </div>
+
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-cyan">📁</span>
+                        <span class="row-text">Папки с чатами</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-pink">💟</span>
+                        <span class="row-text">Стикеры и эмодзи</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-lightgreen">🔊</span>
+                        <span class="row-text">Звук и камера</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-blue2">💻</span>
+                        <span class="row-text">Устройства</span>
+                        <span class="row-badge">2</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-purple">🌐</span>
+                        <span class="row-text">Язык</span>
+                        <span class="row-value">Русский</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-orange">⌨️</span>
+                        <span class="row-text">Сочетания клавиш</span>
+                    </div>
+                </div>
+
+                <div class="settings-block-section no-padding">
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-star">⭐</span>
+                        <span class="row-text">Telegram Premium</span>
+                    </div>
+                    <div class="menu-item-row">
+                        <span class="row-icon icon-gift">🎁</span>
+                        <span class="row-text">Отправить подарок</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Основной контент сайта (а-ля рабочая зона) -->
-    <main class="content-container">
-        <section class="tg-info-card">
-            <h1>Добро пожаловать!</h1>
-            <div class="placeholder-text">
-                <p><strong>[МЕСТО ДЛЯ ВАШЕЙ ИНФОРМАЦИИ]</strong></p>
-                <p>Этот блок зарезервирован под контент, который ты пришлёшь позже. Открой меню-бургер в левом верхнем углу, чтобы протестировать полноценный интерфейс настроек Telegram.</p>
-            </div>
-        </section>
-    </main>
+    <!-- ФОН ЧАТА И ПОДКЛЮЧЕНИЕ СКРИПТА -->
+    <div class="tg-chat-background"></div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
