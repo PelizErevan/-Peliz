@@ -1,88 +1,134 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Поиск элементов интерфейса
-    const settingsBtn = document.getElementById('settingsBtn');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const closeBtn = document.getElementById('closeBtn');
+    // Находим все необходимые элементы интерфейса
+    const burgerBtn = document.getElementById('burgerBtn');
+    const leftSidebar = document.getElementById('leftSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
     
-    const themeSelect = document.getElementById('themeSelect');
-    const customColorsGroup = document.getElementById('customColors');
-    const bgColorPicker = document.getElementById('bgColorPicker');
-    const textColorPicker = document.getElementById('textColorPicker');
+    const moreMenuBtn = document.getElementById('moreMenuBtn');
+    const moreDropdown = document.getElementById('moreDropdown');
+    
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    
+    const toggleThemeBtn = document.getElementById('toggleThemeBtn');
+    const themeBtnText = document.getElementById('themeBtnText');
+
+    // ==========================================
+    // 1. УПРАВЛЕНИЕ БОКОВЫМ МЕНЮ И ОВЕРЛЕЕМ
+    // ==========================================
+    const openSidebar = () => {
+        leftSidebar.classList.add('open');
+        sidebarOverlay.style.display = 'block';
+    };
+
+    const closeSidebar = () => {
+        leftSidebar.classList.remove('open');
+        sidebarOverlay.style.display = 'none';
+        moreDropdown.classList.add('hidden'); // Закрываем "Ещё" при закрытии шторки
+    };
+
+    burgerBtn.addEventListener('click', openSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Всплывающее меню "Ещё" (Скриншот 4)
+    moreMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moreDropdown.classList.toggle('hidden');
+    });
+
+    // ==========================================
+    // 2. ОТКРЫТИЕ И ЗАКРЫТИЕ НАСТРОЕК ПО ЦЕНТРУ
+    // ==========================================
+    openSettingsBtn.addEventListener('click', () => {
+        closeSidebar(); // Закрываем шторку перед открытием профиля
+        settingsModal.classList.remove('id-hidden');
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsModal.classList.add('id-hidden');
+    });
+
+    // Закрытие настроек при клике по полупрозрачному фону вокруг окна
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) {
+            settingsModal.classList.add('id-hidden');
+        }
+    });
+
+    // ==========================================
+    // 3. БЫСТРОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (ИЗ МЕНЮ "ЕЩЁ")
+    // ==========================================
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+            themeBtnText.textContent = 'Ночной режим';
+            toggleThemeBtn.querySelector('.drop-icon').textContent = '🌙';
+        } else if (theme === 'dark') {
+            document.body.removeAttribute('data-theme');
+            themeBtnText.textContent = 'Светлый режим';
+            toggleThemeBtn.querySelector('.drop-icon').textContent = '☀️';
+        }
+        localStorage.setItem('tg-site-theme', theme);
+    };
+
+    toggleThemeBtn.addEventListener('click', () => {
+        const currentTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(currentTheme);
+        moreDropdown.classList.add('hidden'); // Прячем меню после выбора
+    });
+    // ==========================================
+    // 4. КАСТОМНАЯ ПАЛИТРА И ПОЛЗУНОК ГРОМКОСТИ
+    // ==========================================
+    const customColorsTrigger = document.getElementById('customColorsTrigger');
+    const customColorPickers = document.getElementById('customColorPickers');
+    const customBgPicker = document.getElementById('customBgPicker');
+    const customTextPicker = document.getElementById('customTextPicker');
     
     const volumeSlider = document.getElementById('volumeSlider');
-    const volumeValue = document.getElementById('volumeValue');
+    const volumeValLabel = document.getElementById('volumeValLabel');
 
-    // ==========================================
-    // 1. ОТКРЫТИЕ И ЗАКРЫТИЕ МОДАЛЬНОГО ОКНА TG
-    // ==========================================
-    
-    const openSettings = () => {
-        modalOverlay.classList.add('open');
-        settingsBtn.classList.add('hide-menu'); // Скрываем бургер-кнопку
-    };
-
-    const closeSettings = () => {
-        modalOverlay.classList.remove('open');
-        settingsBtn.classList.remove('hide-menu'); // Возвращаем бургер-кнопку
-    };
-
-    // Слушатели кликов
-    settingsBtn.addEventListener('click', openSettings);
-    closeBtn.addEventListener('click', closeSettings);
-
-    // Закрытие при клике по тёмному фону вокруг окна
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            closeSettings();
-        }
+    // Показ / скрытие блока выбора цвета
+    customColorsTrigger.addEventListener('click', () => {
+        customColorPickers.classList.toggle('hidden');
     });
 
-    // ==========================================
-    // 2. СИСТЕМА ТЕМ ОФОРМЛЕНИЯ
-    // ==========================================
-    
-    const applyTheme = (theme, customBg = null, customText = null) => {
-        // Очищаем инлайн-стили для сброса предыдущих кастомных настроек
-        document.documentElement.removeAttribute('style');
+    // Применение пользовательской палитры
+    const applyCustomColors = (bg, text) => {
+        document.documentElement.style.setProperty('--tg-panel', bg);
+        document.documentElement.style.setProperty('--tg-bg', adjustColorBrightness(bg, -10));
+        document.documentElement.style.setProperty('--tg-hover', adjustColorBrightness(bg, 8));
+        document.documentElement.style.setProperty('--tg-border', adjustColorBrightness(bg, -15));
+        document.documentElement.style.setProperty('--tg-text', text);
+        document.documentElement.style.setProperty('--tg-subtext', adjustColorBrightness(text, -40));
         
-        if (theme === 'custom') {
-            customColorsGroup.classList.remove('hidden');
-            document.documentElement.setAttribute('data-theme', 'custom');
-            
-            const bg = customBg || bgColorPicker.value;
-            const text = customText || textColorPicker.value;
-            
-            // Настройка кастомных переменных (цвета генерируются динамически)
-            document.documentElement.style.setProperty('--bg-color', bg);
-            document.documentElement.style.setProperty('--card-bg', adjustColorBrightness(bg, 6));
-            document.documentElement.style.setProperty('--text-color', text);
-            document.documentElement.style.setProperty('--border-color', adjustColorBrightness(bg, -12));
-            document.documentElement.style.setProperty('--sub-text', adjustColorBrightness(text, 30));
-            
-            bgColorPicker.value = bg;
-            textColorPicker.value = text;
-        } else {
-            customColorsGroup.classList.add('hidden');
-            document.documentElement.setAttribute('data-theme', theme);
-        }
+        customBgPicker.value = bg;
+        customTextPicker.value = text;
         
-        localStorage.setItem('site-theme', theme);
+        localStorage.setItem('tg-custom-bg', bg);
+        localStorage.setItem('tg-custom-text', text);
     };
 
-    // Обработчики для выпадающего списка и палитры
-    themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
-    
-    bgColorPicker.addEventListener('input', () => {
-        applyTheme('custom');
-        localStorage.setItem('custom-bg-color', bgColorPicker.value);
+    customBgPicker.addEventListener('input', () => {
+        applyCustomColors(customBgPicker.value, customTextPicker.value);
     });
 
-    textColorPicker.addEventListener('input', () => {
-        applyTheme('custom');
-        localStorage.setItem('custom-text-color', textColorPicker.value);
+    customTextPicker.addEventListener('input', () => {
+        applyCustomColors(customBgPicker.value, customTextPicker.value);
     });
 
-    // Вспомогательная функция умной генерации оттенков подложек под элементы
+    // Управление громкостью
+    const updateVolume = (value) => {
+        volumeSlider.value = value;
+        volumeValLabel.textContent = `${value}%`;
+        localStorage.setItem('tg-site-volume', value);
+    };
+
+    volumeSlider.addEventListener('input', (e) => {
+        updateVolume(e.target.value);
+    });
+
+    // Генерация оттенков для кастомного стиля
     function adjustColorBrightness(hex, percent) {
         let R = parseInt(hex.substring(1,3), 16);
         let G = parseInt(hex.substring(3,5), 16);
@@ -103,28 +149,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. РАБОТА С ПОЛЗУНКОМ ГРОМКОСТИ
+    // 5. ИНИЦИАЛИЗАЦИЯ И ЗАГРУЗКА ПАРАМЕТРОВ
     // ==========================================
-    const updateVolume = (value) => {
-        volumeSlider.value = value;
-        volumeValue.textContent = `${value}%`;
-        localStorage.setItem('site-volume', value);
-    };
+    const savedTheme = localStorage.getItem('tg-site-theme') || 'dark';
+    const savedBg = localStorage.getItem('tg-custom-bg');
+    const savedText = localStorage.getItem('tg-custom-text');
+    const savedVolume = localStorage.getItem('tg-site-volume') || '50';
 
-    volumeSlider.addEventListener('input', (e) => updateVolume(e.target.value));
+    // Восстанавливаем тему
+    applyTheme(savedTheme);
 
-    // ==========================================
-    // 4. ЗАГРУЗКА ДАННЫХ ИЗ ХРАНИЛИЩА (LOCALSTORAGE)
-    // ==========================================
-    const savedTheme = localStorage.getItem('site-theme') || 'light';
-    const savedBg = localStorage.getItem('custom-bg-color');
-    const savedText = localStorage.getItem('custom-text-color');
-    const savedVolume = localStorage.getItem('site-volume') || '50';
+    // Восстанавливаем цвета, если они были настроены ранее
+    if (savedBg && savedText) {
+        applyCustomColors(savedBg, savedText);
+    }
 
-    themeSelect.value = savedTheme;
-    applyTheme(savedTheme, savedBg, savedText);
+    // Восстанавливаем уровень громкости
     updateVolume(savedVolume);
 });
+
 
 
 
