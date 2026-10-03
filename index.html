@@ -3,72 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Сайт на GitHub Pages</title>
+    <title>Telegram Style Site</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Кнопка настроек (шестерёнка) — скрывается при открытии панели -->
-    <button class="settings-btn" id="settingsBtn" aria-label="Открыть настройки">
-        ⚙️
+    <!-- Кнопка бургер-меню в стиле Telegram (вместо шестерёнки) -->
+    <button class="tg-menu-btn" id="settingsBtn" aria-label="Открыть настройки">
+        <span></span>
+        <span></span>
+        <span></span>
     </button>
 
-    <!-- Прокачанная панель настроек -->
-    <div class="settings-panel" id="settingsPanel">
-        <div class="settings-header">
-            <h3>⚙️ Настройки</h3>
-            <button class="close-btn" id="closeBtn" aria-label="Закрыть настройки">&times;</button>
-        </div>
-        
-        <div class="settings-body">
-            <!-- Выбор темы -->
-            <div class="setting-item">
-                <label for="themeSelect">Тема оформления</label>
-                <select id="themeSelect">
-                    <option value="light">☀️ Светлая премиум</option>
-                    <option value="dark">🌙 Тёмная ночь</option>
-                    <option value="custom">🎨 Свой стиль (Кастом)</option>
-                </select>
-            </div>
-
-            <!-- Красивая дизайнерская группа для кастомных цветов -->
-            <div id="customColors" class="custom-colors-group hidden">
-                <div class="custom-colors-title">Настройка палитры</div>
-                
-                <div class="color-picker-item">
-                    <span class="color-label">🏞️ Фон страницы</span>
-                    <div class="color-input-wrapper">
-                        <input type="color" id="bgColorPicker" value="#ffffff">
-                    </div>
-                </div>
-                
-                <div class="color-picker-item">
-                    <span class="color-label">✍️ Цвет текста</span>
-                    <div class="color-input-wrapper">
-                        <input type="color" id="textColorPicker" value="#000000">
-                    </div>
+    <!-- Модальное окно настроек по центру (как в Telegram) -->
+    <div class="tg-modal-overlay" id="modalOverlay">
+        <div class="tg-settings-modal" id="settingsPanel">
+            <div class="tg-modal-header">
+                <div class="tg-modal-title-block">
+                    <button class="tg-back-btn" id="closeBtn">←</button>
+                    <h3>Настройки</h3>
                 </div>
             </div>
+            
+            <div class="tg-modal-body">
+                <!-- Категория: Интерфейс -->
+                <div class="tg-section-title">Настройки интерфейса</div>
+                
+                <div class="tg-setting-item">
+                    <div class="tg-setting-info">
+                        <span class="tg-icon">🎨</span>
+                        <label for="themeSelect">Тема оформления</label>
+                    </div>
+                    <select id="themeSelect" class="tg-select">
+                        <option value="light">Дневная тема</option>
+                        <option value="dark">Ночная тема</option>
+                        <option value="custom">Кастомная палитра</option>
+                    </select>
+                </div>
 
-            <!-- Ползунок громкости -->
-            <div class="setting-item">
-                <label for="volumeSlider">Громкость звука</label>
-                <div class="volume-container">
-                    <span class="volume-icon">🔊</span>
-                    <input type="range" id="volumeSlider" min="0" max="100" value="50">
-                    <span id="volumeValue">50%</span>
+                <!-- Блок кастомной темы в стиле Telegram-конструктора -->
+                <div id="customColors" class="tg-custom-palette hidden">
+                    <div class="tg-palette-row">
+                        <div class="tg-setting-info">
+                            <span class="tg-icon">🖼️</span>
+                            <span>Цвет фона чата</span>
+                        </div>
+                        <input type="color" id="bgColorPicker" value="#f5f7fa" class="tg-color-picker">
+                    </div>
+                    
+                    <div class="tg-palette-row">
+                        <div class="tg-setting-info">
+                            <span class="tg-icon">✍️</span>
+                            <span>Цвет основного текста</span>
+                        </div>
+                        <input type="color" id="textColorPicker" value="#000000" class="tg-color-picker">
+                    </div>
+                </div>
+
+                <!-- Категория: Звук -->
+                <div class="tg-section-title">Звуки и уведомления</div>
+                
+                <div class="tg-setting-item vertical">
+                    <div class="tg-setting-info">
+                        <span class="tg-icon">🔊</span>
+                        <label for="volumeSlider">Громкость медиа</label>
+                        <span id="volumeValue" class="tg-volume-badge">50%</span>
+                    </div>
+                    <div class="tg-slider-wrapper">
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="tg-range">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Основной контент сайта -->
+    <!-- Основной контент сайта (а-ля рабочая зона) -->
     <main class="content-container">
-        <section class="info-block">
+        <section class="tg-info-card">
             <h1>Добро пожаловать!</h1>
             <div class="placeholder-text">
                 <p><strong>[МЕСТО ДЛЯ ВАШЕЙ ИНФОРМАЦИИ]</strong></p>
-                <p>Пришлите сюда текст, картинки или ссылки, и мы сделаем из этого крутой блок. Настройки уже работают на полную мощность — проверь шестерёнку в углу!</p>
+                <p>Этот блок зарезервирован под контент, который ты пришлёшь позже. Открой меню-бургер в левом верхнем углу, чтобы протестировать полноценный интерфейс настроек Telegram.</p>
             </div>
         </section>
     </main>
@@ -76,5 +91,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
