@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Элементы интерфейса
+    // Поиск элементов интерфейса
     const settingsBtn = document.getElementById('settingsBtn');
-    const settingsPanel = document.getElementById('settingsPanel');
+    const modalOverlay = document.getElementById('modalOverlay');
     const closeBtn = document.getElementById('closeBtn');
     
     const themeSelect = document.getElementById('themeSelect');
@@ -13,35 +13,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeValue = document.getElementById('volumeValue');
 
     // ==========================================
-    // 1. ОТКРЫТИЕ И ЗАКРЫТИЕ НАСТРОЕК (С ШЕСТЕРЁНКОЙ)
+    // 1. ОТКРЫТИЕ И ЗАКРЫТИЕ МОДАЛЬНОГО ОКНА TG
     // ==========================================
     
     const openSettings = () => {
-        settingsPanel.classList.add('open');
-        settingsBtn.classList.add('hide-gear'); // Плавное исчезновение шестерёнки
+        modalOverlay.classList.add('open');
+        settingsBtn.classList.add('hide-menu'); // Скрываем бургер-кнопку
     };
 
     const closeSettings = () => {
-        settingsPanel.classList.remove('open');
-        settingsBtn.classList.remove('hide-gear'); // Плавное возвращение шестерёнки
+        modalOverlay.classList.remove('open');
+        settingsBtn.classList.remove('hide-menu'); // Возвращаем бургер-кнопку
     };
 
+    // Слушатели кликов
     settingsBtn.addEventListener('click', openSettings);
     closeBtn.addEventListener('click', closeSettings);
 
-    // Закрытие панели при клике в любое другое место экрана
-    document.addEventListener('click', (e) => {
-        if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target) && settingsPanel.classList.contains('open')) {
+    // Закрытие при клике по тёмному фону вокруг окна
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
             closeSettings();
         }
     });
 
     // ==========================================
-    // 2. УПРАВЛЕНИЕ УЛУЧШЕННЫМИ ТЕМАМИ
+    // 2. СИСТЕМА ТЕМ ОФОРМЛЕНИЯ
     // ==========================================
     
     const applyTheme = (theme, customBg = null, customText = null) => {
-        // Чистим старые инлайн-стили, чтобы убрать следы кастомных цветов
+        // Очищаем инлайн-стили для сброса предыдущих кастомных настроек
         document.documentElement.removeAttribute('style');
         
         if (theme === 'custom') {
@@ -51,11 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const bg = customBg || bgColorPicker.value;
             const text = customText || textColorPicker.value;
             
-            // Для кастомной темы переопределяем переменные напрямую (включая замену градиента на чистый цвет)
+            // Настройка кастомных переменных (цвета генерируются динамически)
             document.documentElement.style.setProperty('--bg-color', bg);
-            document.documentElement.style.setProperty('--card-bg', adjustColorBrightness(bg, 8));
+            document.documentElement.style.setProperty('--card-bg', adjustColorBrightness(bg, 6));
             document.documentElement.style.setProperty('--text-color', text);
-            document.documentElement.style.setProperty('--border-color', adjustColorBrightness(bg, -10));
+            document.documentElement.style.setProperty('--border-color', adjustColorBrightness(bg, -12));
+            document.documentElement.style.setProperty('--sub-text', adjustColorBrightness(text, 30));
             
             bgColorPicker.value = bg;
             textColorPicker.value = text;
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('site-theme', theme);
     };
 
-    // Слушатели для меню выбора и пикеров цветов
+    // Обработчики для выпадающего списка и палитры
     themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
     
     bgColorPicker.addEventListener('input', () => {
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('custom-text-color', textColorPicker.value);
     });
 
-    // Генератор подложки (карточки) для кастомного цвета (делает чуть темнее или светлее фона)
+    // Вспомогательная функция умной генерации оттенков подложек под элементы
     function adjustColorBrightness(hex, percent) {
         let R = parseInt(hex.substring(1,3), 16);
         let G = parseInt(hex.substring(3,5), 16);
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. УПРАВЛЕНИЕ ПОЛЗУНКОМ ГРОМКОСТИ
+    // 3. РАБОТА С ПОЛЗУНКОМ ГРОМКОСТИ
     // ==========================================
     const updateVolume = (value) => {
         volumeSlider.value = value;
@@ -112,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     volumeSlider.addEventListener('input', (e) => updateVolume(e.target.value));
 
     // ==========================================
-    // 4. ИНИЦИАЛИЗАЦИЯ (ЗАГРУЗКА ПРИ СТАРТЕ)
+    // 4. ЗАГРУЗКА ДАННЫХ ИЗ ХРАНИЛИЩА (LOCALSTORAGE)
     // ==========================================
     const savedTheme = localStorage.getItem('site-theme') || 'light';
     const savedBg = localStorage.getItem('custom-bg-color');
@@ -123,5 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme, savedBg, savedText);
     updateVolume(savedVolume);
 });
+
 
 
