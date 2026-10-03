@@ -8,45 +8,53 @@
 </head>
 <body>
 
-    <!-- Кнопка настроек в правом верхнем углу -->
+    <!-- Кнопка настроек (шестерёнка) — скрывается при открытии панели -->
     <button class="settings-btn" id="settingsBtn" aria-label="Открыть настройки">
         ⚙️
     </button>
 
-    <!-- Панель настроек (модальное окно) -->
+    <!-- Прокачанная панель настроек -->
     <div class="settings-panel" id="settingsPanel">
         <div class="settings-header">
-            <h3>Настройки</h3>
-            <button class="close-btn" id="closeBtn">&times;</button>
+            <h3>⚙️ Настройки</h3>
+            <button class="close-btn" id="closeBtn" aria-label="Закрыть настройки">&times;</button>
         </div>
         
         <div class="settings-body">
             <!-- Выбор темы -->
             <div class="setting-item">
-                <label for="themeSelect">Тема оформления:</label>
+                <label for="themeSelect">Тема оформления</label>
                 <select id="themeSelect">
-                    <option value="light">Светлая</option>
-                    <option value="dark">Тёмная</option>
-                    <option value="custom">Кастомная</option>
+                    <option value="light">☀️ Светлая премиум</option>
+                    <option value="dark">🌙 Тёмная ночь</option>
+                    <option value="custom">🎨 Свой стиль (Кастом)</option>
                 </select>
             </div>
 
-            <!-- Кастомные цвета (скрыты по умолчанию) -->
+            <!-- Красивая дизайнерская группа для кастомных цветов -->
             <div id="customColors" class="custom-colors-group hidden">
+                <div class="custom-colors-title">Настройка палитры</div>
+                
                 <div class="color-picker-item">
-                    <label for="bgColorPicker">Цвет фона:</label>
-                    <input type="color" id="bgColorPicker" value="#ffffff">
+                    <span class="color-label">🏞️ Фон страницы</span>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="bgColorPicker" value="#ffffff">
+                    </div>
                 </div>
+                
                 <div class="color-picker-item">
-                    <label for="textColorPicker">Цвет текста:</label>
-                    <input type="color" id="textColorPicker" value="#000000">
+                    <span class="color-label">✍️ Цвет текста</span>
+                    <div class="color-input-wrapper">
+                        <input type="color" id="textColorPicker" value="#000000">
+                    </div>
                 </div>
             </div>
 
             <!-- Ползунок громкости -->
             <div class="setting-item">
-                <label for="volumeSlider">Громкость:</label>
+                <label for="volumeSlider">Громкость звука</label>
                 <div class="volume-container">
+                    <span class="volume-icon">🔊</span>
                     <input type="range" id="volumeSlider" min="0" max="100" value="50">
                     <span id="volumeValue">50%</span>
                 </div>
@@ -56,12 +64,11 @@
 
     <!-- Основной контент сайта -->
     <main class="content-container">
-        <!-- Блок для вашей будущей информации -->
         <section class="info-block">
             <h1>Добро пожаловать!</h1>
             <div class="placeholder-text">
                 <p><strong>[МЕСТО ДЛЯ ВАШЕЙ ИНФОРМАЦИИ]</strong></p>
-                <p>Пришлите текст или данные позже, и мы заменим этот блок на ваш полноценный контент. Сейчас здесь находится временная заглушка, чтобы вы видели, как сайт выглядит в разных темах оформления.</p>
+                <p>Пришлите сюда текст, картинки или ссылки, и мы сделаем из этого крутой блок. Настройки уже работают на полную мощность — проверь шестерёнку в углу!</p>
             </div>
         </section>
     </main>
@@ -69,4 +76,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
