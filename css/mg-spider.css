@@ -1,0 +1,6 @@
+/* ===== Паучья роща ===== */
+.mg-spider .mg-box { cursor: grab; border-color: #7a5fc0; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(ellipse at 50% 100%, rgba(120, 230, 150, .09), transparent 60%), linear-gradient(180deg, #0b0a1c, #17112e 55%, #1f1836);
+  box-shadow: 0 0 0 3px #120c26, 0 0 34px rgba(130, 100, 230, .32), inset 0 0 40px rgba(0, 0, 0, .6); }
+.sp-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
+.sp-bg svg { display: block; }

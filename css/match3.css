@@ -1,0 +1,58 @@
+/* ===== Конфетное поле (три в ряд) ===== */
+.m3 { --mboard: min(94vw, calc(100vh - 290px), 540px); justify-content: flex-start; }
+@supports (height: 100dvh) { .m3 { --mboard: min(94vw, calc(100dvh - 290px), 540px); } }
+.m3 .game-head { width: min(96vw, calc(var(--mboard) + 14px)); }
+.m3 .game-title { font-size: clamp(20px, 4.4vw, 30px); text-align: center; }
+.movechip.low { border-color: #ff5a5a; animation: lowpulse .8s infinite alternate; }
+@keyframes lowpulse { to { box-shadow: 0 0 14px #ff5a5a; } }
+
+.m3-goals { display: flex; gap: 10px; justify-content: center; padding: 6px 14px; width: min(96vw, calc(var(--mboard) + 14px)); border-radius: 16px; }
+.goal { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 74px; }
+.goal .gi { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; }
+.goal .gi svg { width: 86%; height: 86%; }
+.goal b { font-size: 20px; color: var(--glow); line-height: 1; margin-top: 2px; }
+.goal small { font-size: 11px; color: var(--muted); }
+.goal.done b { color: var(--green); }
+.goal.done .gi { filter: saturate(.5) brightness(.8); }
+
+.m3-boardwrap { position: relative; }
+.m3-board { position: relative; width: var(--mboard); height: var(--mboard); padding: 6px; border-radius: 18px; overflow: hidden; touch-action: none;
+  background: linear-gradient(180deg, #2c1450, #170a2c); border: 3px solid var(--orange);
+  box-shadow: 0 0 0 3px #1a0a30, 0 0 34px rgba(255, 122, 26, .4), inset 0 0 30px rgba(0, 0, 0, .6); }
+.m3-bg { position: absolute; inset: 6px; border-radius: 12px; background: repeating-conic-gradient(rgba(255, 255, 255, .06) 0% 25%, rgba(0, 0, 0, .12) 0% 50%) 0 0 / 25% 25%; }
+.m3-tiles { position: absolute; inset: 6px; }
+.t { position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%; transition: transform .26s cubic-bezier(.3, .9, .4, 1); will-change: transform; cursor: pointer; touch-action: none; }
+.ti { position: absolute; inset: 5%; border-radius: 26%; display: grid; place-items: center; transition: transform .15s, box-shadow .15s; }
+.ti .art { width: 90%; height: 90%; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .55)); pointer-events: none; }
+.ti .ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.tt0 { background: rgba(255, 190, 40, .24); }
+.tt1 { background: rgba(255, 110, 20, .26); }
+.tt2 { background: rgba(155, 92, 255, .30); }
+.tt3 { background: rgba(140, 220, 40, .26); }
+.tt4 { background: rgba(190, 120, 70, .30); }
+.tt5 { background: rgba(255, 70, 90, .24); }
+.tbomb { background: radial-gradient(circle, rgba(255, 255, 255, .25), rgba(155, 92, 255, .3)); }
+.t.drop .ti { animation: tdrop .45s cubic-bezier(.3, 1.4, .5, 1) backwards; }
+@keyframes tdrop { from { transform: translateY(-160%) scale(.7); opacity: 0; } }
+.t.sel .ti { transform: scale(1.15); box-shadow: 0 0 0 3px #fff, 0 0 20px #ffd45a; z-index: 3; }
+.t.hint .ti { animation: thint .7s ease-in-out infinite; }
+@keyframes thint { 50% { transform: scale(1.18) rotate(4deg); box-shadow: 0 0 16px #ffd45a; } }
+.t.shake .ti { animation: tshake .25s; }
+@keyframes tshake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.t.clearing { z-index: 4; }
+.t.clearing .ti { animation: tclr .27s ease-in forwards; }
+@keyframes tclr { 0% { transform: scale(1); filter: brightness(1); } 40% { transform: scale(1.3); filter: brightness(2.2); } 100% { transform: scale(0) rotate(100deg); opacity: 0; } }
+.t.born .ti { animation: tborn .5s ease-out; }
+@keyframes tborn { 0% { transform: scale(.2); filter: brightness(3); } 60% { transform: scale(1.35); } 100% { transform: scale(1); } }
+
+/* особые конфеты */
+.sp { box-shadow: 0 0 0 2px rgba(255, 255, 255, .85), 0 0 14px rgba(255, 255, 255, .75); animation: spglow 1s ease-in-out infinite alternate; }
+@keyframes spglow { to { box-shadow: 0 0 0 2px #fff, 0 0 22px 4px rgba(255, 220, 120, .95); } }
+.sp-row .ov, .sp-col .ov { opacity: .9; animation: ovpulse .9s ease-in-out infinite alternate; }
+@keyframes ovpulse { to { transform: scale(1.12); opacity: .6; } }
+.sp-blast .ov { animation: spin 5s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.tbomb { animation: bombhue 2.2s linear infinite; }
+@keyframes bombhue { to { filter: hue-rotate(360deg); } }
+
+.m3-foot { width: min(94vw, 520px); text-align: center; font-size: 13px; line-height: 1.35; }

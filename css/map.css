@@ -1,0 +1,65 @@
+/* ===== Карта локаций ===== */
+#screen-map .map-scroll { position: absolute; left: 0; right: 0; top: 0; bottom: 64px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+#screen-map #map-svg { display: block; height: 100%; width: auto; min-width: 100%; }
+
+.loc { cursor: pointer; outline: none; }
+.loc .art { transition: filter .2s; }
+.loc .glowbase { opacity: 0; transition: opacity .6s; pointer-events: none; }
+.loc.current .glowbase { opacity: 1; }
+@media (hover: hover) { .loc:hover .art, .loc:focus-visible .art { filter: brightness(1.2); } }
+.loc.locked .art { filter: grayscale(.85) brightness(.55); }
+.plate-wrap.locked .plate { opacity: .75; }
+.plate-wrap .plate { transition: transform .2s; }
+.plate-wrap.hov .plate { transform: translate(0, 19px); }
+.plate-wrap .plate text { pointer-events: none; }
+.loc.shake { animation: shake .5s; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-9px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(4px); } }
+
+.arrow { animation: arrowbob 1s ease-in-out infinite; }
+@keyframes arrowbob { 50% { transform: translateY(-10px); } }
+
+.lockmark { animation: lockwob 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes lockwob { 50% { transform: rotate(8deg); } }
+
+.loc.current .win, .loc.open .win { animation: winflick 3.2s ease-in-out infinite; }
+@keyframes winflick { 0%, 100% { opacity: 1; } 42% { opacity: .95; } 46% { opacity: .55; } 50% { opacity: 1; } 78% { opacity: .85; } }
+.tw { animation: twinkle 3s ease-in-out infinite; }
+.loc.current .ghost-float, .loc.open .ghost-float { animation: ghostfloat 3.4s ease-in-out infinite; }
+@keyframes ghostfloat { 50% { transform: translate(8px, -12px); } }
+@keyframes cloudmove { from { transform: translateX(-40px); } to { transform: translateX(60px); } }
+.loc.current .smoke, .loc.open .smoke { animation: smoke 4s ease-out infinite; transform-box: fill-box; }
+@keyframes smoke { 0% { opacity: 0; transform: translateY(8px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -22px); } }
+.loc.current .bubble, .loc.open .bubble { animation: smoke 2.4s ease-out infinite; }
+.loc.current .bulb, .loc.open .bulb { animation: bulb 1.6s ease-in-out infinite; }
+@keyframes bulb { 50% { opacity: .35; } }
+.sign { transform-box: fill-box; transform-origin: 50% 0; }
+.loc.current .sign, .loc.open .sign { animation: signsway 3s ease-in-out infinite; }
+@keyframes signsway { 50% { transform: rotate(7deg); } }
+
+.quest-bar { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); width: min(94vw, 760px); padding: 10px 16px; text-align: center; font-size: 15px; line-height: 1.35;
+  background: linear-gradient(180deg, rgba(48, 22, 80, .95), rgba(22, 9, 40, .95)); }
+.quest-bar b { color: var(--glow); }
+.q-prog { display: inline-block; margin-left: 6px; padding: 1px 10px; border-radius: 99px; background: var(--orange); color: #2b0d00; font-weight: 800; }
+
+.map-free { position: absolute; right: 8px; top: 8px; z-index: 3; padding: 6px 12px; font-size: 13px; white-space: nowrap; }
+.map-region { position: absolute; left: 8px; top: 8px; z-index: 3; padding: 6px 12px; font-size: 13px; white-space: nowrap; }
+.map-hint { display: none; position: absolute; left: 50%; top: 48px; transform: translateX(-50%); padding: 4px 14px; border-radius: 99px; font-size: 13px; font-weight: 700; color: #ffe2b0;
+  background: rgba(20, 8, 36, .85); border: 1.5px solid rgba(255, 122, 26, .6); pointer-events: none; animation: hintfade 6s forwards; }
+@keyframes hintfade { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+@media (max-aspect-ratio: 4/3) { .map-hint { display: block; } }
+
+/* снятие замка */
+.loc.unlocking .art { transition: filter 1s; }
+.lockmark.unlock-shake { animation: lockshake .12s linear infinite; }
+@keyframes lockshake { 0%, 100% { transform: rotate(-12deg) scale(1.1); } 50% { transform: rotate(12deg) scale(1.1); } }
+.lockmark.unlock-pop { animation: lockpop .9s ease-out forwards; }
+@keyframes lockpop { 0% { transform: scale(1); opacity: 1; } 35% { transform: scale(1.9) rotate(-10deg); opacity: 1; } 100% { transform: scale(2.6) translateY(-30px); opacity: 0; } }
+
+/* на широких экранах вся карта помещается без прокрутки */
+@media (min-width: 1100px) {
+  #screen-map .map-scroll { display: flex; align-items: center; overflow-x: hidden; }
+  #screen-map #map-svg { width: 100%; height: auto; max-height: 100%; min-width: 0; }
+}
+
+/* «Тёмный лес»: поля вокруг картинки продолжают её верхний и нижний цвет, шва нет */
+#screen-map .map-scroll.forest { background: linear-gradient(180deg, #061420 0%, #061420 50%, #0a1f1c 50%, #0a1f1c 100%); }

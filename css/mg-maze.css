@@ -1,0 +1,5 @@
+/* ===== Туманный лабиринт ===== */
+.mg-maze .mg-box { border-color: #6a78b8; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(ellipse at 50% 50%, #0d0a1c, #05030b 80%);
+  box-shadow: 0 0 0 3px #0c0a1c, 0 0 34px rgba(110, 130, 220, .3), inset 0 0 50px rgba(0, 0, 0, .7); }
+.mg-maze .mg-say { bottom: auto; top: 12px; }

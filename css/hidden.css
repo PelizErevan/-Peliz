@@ -1,0 +1,74 @@
+/* ===== Комната призраков (поиск предмета) ===== */
+.hid { justify-content: flex-start; gap: 8px; }
+.hid-top { width: min(98vw, 980px); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.hid-task { display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 10px; border-radius: 16px; }
+.hid-task small { display: block; font-size: 12px; color: var(--muted); }
+.hid-task b { font-family: var(--font-title); font-weight: 400; font-size: 22px; color: var(--glow); letter-spacing: .5px; text-shadow: 0 0 8px rgba(255, 122, 26, .6); }
+.hid-keyicon { width: 64px; height: 32px; filter: drop-shadow(0 0 6px rgba(255, 210, 80, .8)); }
+.hid-stats { display: flex; gap: 8px; }
+
+.hid-scene-wrap { --sw: min(98vw, calc((100vh - 190px) * 1.5625), 980px); width: var(--sw); max-width: 100%; margin: 0 auto; border-radius: 16px; }
+@supports (height: 100dvh) { .hid-scene-wrap { --sw: min(98vw, calc((100dvh - 190px) * 1.5625), 980px); } }
+.hid-scene-wrap.zoomed { overflow: auto; max-height: calc(var(--sw) / 1.5625 + 6px); scrollbar-width: thin; }
+.hid-scene-wrap.zoomed .hid-scene { width: calc(var(--sw) * 2.2); max-width: none; }
+.hid-scene { position: relative; width: min(var(--sw), 100%); aspect-ratio: 1000 / 640; border-radius: 16px; overflow: hidden; touch-action: manipulation;
+  border: 3px solid var(--orange); box-shadow: 0 0 0 3px #1a0a30, 0 0 36px rgba(255, 122, 26, .35), 0 12px 30px rgba(0, 0, 0, .6); cursor: crosshair; }
+#hid-svg { width: 100%; height: 100%; display: block; }
+.hid-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+.hid-dark { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s;
+  background: radial-gradient(circle var(--lr, 140px) at var(--lx, 50%) var(--ly, 50%), rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 55%, rgba(3, 0, 10, .95) 100%); }
+.hid-dark.on { opacity: 1; }
+
+/* анимации сцены */
+.flame { animation: flame .45s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes flame { from { transform: scale(1, 1) skewX(-3deg); } to { transform: scale(.92, 1.1) skewX(3deg); } }
+.pend { animation: pend 2.4s ease-in-out infinite; transform-origin: 894px 210px; }
+@keyframes pend { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.spider { animation: spider 5s ease-in-out infinite; }
+@keyframes spider { 0%, 100% { transform: translateY(-6px); } 50% { transform: translateY(26px); } }
+.ghostH { animation: ghostH 14s ease-in-out infinite; }
+@keyframes ghostH { 0%, 100% { transform: translate(-40px, 0); opacity: .3; } 50% { transform: translate(110px, -30px); opacity: 1; } }
+.chand { animation: chand 6s ease-in-out infinite; transform-origin: 500px 0; }
+@keyframes chand { 50% { transform: rotate(1.6deg); } }
+.cat .eyes { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+
+.ripple { fill: none; stroke: #ff5a5a; stroke-width: 4; animation: ripple .8s ease-out forwards; }
+.ripple.warn { stroke: #ffb347; }
+.ripple.ok { stroke: #9be22b; stroke-width: 6; }
+@keyframes ripple { from { r: 6; opacity: 1; } to { r: 46; opacity: 0; } }
+.hintring { fill: rgba(255, 220, 120, .1); stroke: #ffd45a; stroke-width: 4; stroke-dasharray: 10 8; animation: hintpulse 1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes hintpulse { 50% { transform: scale(1.12); stroke-opacity: .5; } }
+.foundkey { animation: foundkey 1s ease-in-out forwards; transform-box: fill-box; transform-origin: center; filter: drop-shadow(0 0 10px #ffe36a) drop-shadow(0 0 22px #ffb000); }
+@keyframes foundkey { 0% { transform: scale(1); } 40% { transform: scale(2.6) rotate(-12deg); } 100% { transform: scale(2.2) rotate(0); } }
+
+/* общие анимации для комнат 2 и 3 (только transform/opacity; transform-origin считается от самой фигуры) */
+.blinker { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+.drift { animation: drift 9s ease-in-out infinite; }
+@keyframes drift { 0%, 100% { transform: translate(-34px, 8px) rotate(-5deg); } 50% { transform: translate(34px, -10px) rotate(5deg); } }
+.bob { animation: bob 3s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+.glowp { animation: glowp 2.4s ease-in-out infinite; }
+@keyframes glowp { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+.bub { animation: bub 2.8s ease-in infinite; transform-box: fill-box; transform-origin: center; }
+.bub.b2 { animation-delay: -.9s; } .bub.b3 { animation-delay: -1.8s; }
+@keyframes bub { 0% { transform: translateY(0) scale(.5); opacity: 0; } 20% { opacity: .95; } 100% { transform: translateY(-38px) scale(1); opacity: 0; } }
+.drip { animation: drip 3.4s ease-in infinite; }
+@keyframes drip { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 78% { transform: translateY(54px); opacity: 1; } 100% { transform: translateY(58px); opacity: 0; } }
+
+.swayc { animation: swayc 5s ease-in-out infinite; }
+@keyframes swayc { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+
+/* окно «Комнаты» */
+.hid-rooms { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.hid-room { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 10px 14px; border-radius: 14px; cursor: pointer; color: var(--text, #fff);
+  background: rgba(255, 255, 255, .06); border: 2px solid rgba(255, 255, 255, .14); font: inherit; }
+.hid-room:hover:not(:disabled) { background: rgba(255, 122, 26, .14); border-color: var(--orange); }
+.hid-room.cur { border-color: var(--glow, #ffb347); box-shadow: 0 0 14px rgba(255, 179, 71, .35); }
+.hid-room.done .hr-ico { filter: drop-shadow(0 0 6px rgba(120, 255, 120, .7)); }
+.hid-room.locked { opacity: .55; cursor: not-allowed; }
+.hr-ico { font-size: 30px; line-height: 1; flex: 0 0 auto; }
+.hr-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hr-txt b { font-size: 16px; }
+.hr-txt small { color: var(--muted); font-size: 12px; }

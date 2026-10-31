@@ -1,0 +1,12 @@
+/* ===== Тыквенная грядка ===== */
+.mg-pumpkin .mg-box { border-color: #b57a24; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(120, 200, 60, .16), transparent 62%), linear-gradient(180deg, #12200f, #1d2a12 45%, #2c1d0d);
+  box-shadow: 0 0 0 3px #1a1007, 0 0 34px rgba(255, 150, 40, .28), inset 0 0 40px rgba(0, 0, 0, .55); }
+.pk-bar { position: absolute; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 12px; pointer-events: none; }
+.pk-bar > * { pointer-events: auto; }
+.pk-undo b { color: var(--glow); margin-left: 2px; }
+.pk-undo[disabled] { opacity: .45; filter: none; }
+.pk-undo.pulse { border-color: var(--orange); animation: pkPulse .9s ease-in-out infinite; }
+.pk-hint { font-size: 12px; font-weight: 700; color: #d9c9a0; opacity: .8; }
+@keyframes pkPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.mg-pumpkin .mg-say { bottom: auto; top: 12px; }

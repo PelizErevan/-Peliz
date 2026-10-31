@@ -1,0 +1,4 @@
+/* ===== Пещера летучих мышей ===== */
+.mg-bats .mg-box { cursor: pointer; border-color: #6a4fb0;
+  background: radial-gradient(ellipse at 70% 35%, rgba(120, 255, 200, .10), transparent 60%), linear-gradient(180deg, #0d0820, #1a1034 55%, #2a1a3e);
+  box-shadow: 0 0 0 3px #150b2a, 0 0 34px rgba(120, 90, 220, .35), inset 0 0 40px rgba(0, 0, 0, .6); }

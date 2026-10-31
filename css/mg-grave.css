@@ -1,0 +1,8 @@
+/* ===== Гробовщик ===== */
+.mg-grave .mg-box { border-color: #6f9a86; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(ellipse at 50% -10%, rgba(170, 210, 255, .2), transparent 60%), linear-gradient(180deg, #0b1620, #11231f 55%, #14291f);
+  box-shadow: 0 0 0 3px #0c1a18, 0 0 34px rgba(110, 200, 170, .25), inset 0 0 40px rgba(0, 0, 0, .6); }
+.gv-bar { position: absolute; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 12px; pointer-events: none; }
+.gv-bar > * { pointer-events: auto; }
+.gv-bar .btn[disabled] { opacity: .5; }
+.mg-grave .mg-say { bottom: auto; top: 12px; }
